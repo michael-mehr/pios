@@ -1,10 +1,20 @@
 
+// kernel_main.c
+
 char glbl[1024];
 
-//unsigned long get_timer_count() {
-//  unsigned long *timer_count_register = 0x3f003004;
-//  return *timer_count_register;
-//}
+unsigned long get_timer_count() {
+  unsigned long *timer_count_register = 0x3f003004;
+  return *timer_count_register;
+}
+
+void os_delay(unsigned long time) {
+  unsigned long tmp = get_timer_count();
+  unsigned long end = tmp + time;
+  while (tmp < end) {
+    tmp = get_timer_count();
+  }
+}
 
 void kernel_main() {
 
@@ -18,6 +28,10 @@ void kernel_main() {
     *i = 0;
   }
 
-  while(1){
-  }
+  unsigned long count = get_timer_count();
+  
+  os_delay(1000);
+  
+//  while(1){   
+//  }
 }
