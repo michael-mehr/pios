@@ -1,4 +1,6 @@
 
+// kernel_main.c
+
 char glbl[1024];
 
 unsigned long get_timer_count() {
@@ -18,6 +20,10 @@ void kernel_main() {
     *i = 0;
   }
 
-  while(1){
-  }
+  unsigned long count = get_timer_count();
+  
+  os_delay(1000);
+  
+//  while(1){   
+//  }
 }
