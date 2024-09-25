@@ -1,6 +1,8 @@
 
 // kernel_main.c
 
+#include <printf.h>
+
 char glbl[1024];
 
 unsigned long get_timer_count() {
