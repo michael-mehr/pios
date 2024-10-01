@@ -19,11 +19,14 @@ void kernel_main() {
   for(int *i = bss_start; i <= bss_end; i++){
     *i = 0;
   }
-
-  unsigned long count = get_timer_count();
   
   os_delay(1000);
-  
-//  while(1){   
-//  }
+
+  putc(' ');
+  esp_printf(putc, "hello world");
+
+  while(1){
+    os_delay(500000);
+    esp_printf(putc, "delay");
+  }
 }
