@@ -16,6 +16,17 @@ void os_delay(unsigned long time) {
   }
 }
 
+unsigned int getEL(){
+  unsigned int el;
+
+  asm("mrs %0,CurrentEL"
+      : "=r"(el)
+      :
+      :);
+
+  return el;
+}
+
 void kernel_main() {
 
   extern int __bss_start, __bss_end;
@@ -27,14 +38,12 @@ void kernel_main() {
   for(int *i = bss_start; i <= bss_end; i++){
     *i = 0;
   }
-  
-  os_delay(1000);
 
   putc(' ');
-  esp_printf(putc, "hello world");
+  esp_printf(putc, "Current Execution Level is %d\r\n", getEL());
 
   while(1){
-    os_delay(500000);
-    esp_printf(putc, "delay");
+    esp_printf(putc, "running...\n");
+    os_delay(10000000);
   }
 }
