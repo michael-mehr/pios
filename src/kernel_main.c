@@ -8,6 +8,14 @@ unsigned long get_timer_count() {
   return *timer_count_register;
 }
 
+void os_delay(unsigned long time) {
+  unsigned long tmp = get_timer_count();
+  unsigned long end = tmp + time;
+  while (tmp < end) {
+    tmp = get_timer_count();
+  }
+}
+
 void kernel_main() {
 
   extern int __bss_start, __bss_end;
