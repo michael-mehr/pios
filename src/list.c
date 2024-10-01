@@ -4,8 +4,8 @@
 #include <stddef.h>
 
 
-void list_add(struct list_element *list_head, struct list_element *new_element){
-  new_element->next = list_head;
+void list_add(struct list_element **list_head, struct list_element *new_element){
+  new_element->next = *list_head;
   list_head = new_element;
 }
 
@@ -24,7 +24,7 @@ int main(){
 
   struct list_element *new_item = &d;
 
-  list_add(head, new_item);
+  list_add(&head, new_item);
 
   list_remove(head);
 
