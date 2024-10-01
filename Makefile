@@ -15,6 +15,9 @@ SDIR = src
 OBJS = \
 	boot.o \
 	kernel_main.o \
+        list.o \
+        serial.o \
+        rprintf.o \
 
 # Make sure to keep a blank line here after OBJS list
 
