@@ -6,7 +6,7 @@
 
 void list_add(struct list_element **list_head, struct list_element *new_element){
   new_element->next = *list_head;
-  list_head = new_element;
+  *list_head = new_element;
 }
 
 
