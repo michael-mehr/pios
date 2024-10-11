@@ -1,7 +1,6 @@
 // list.c
 
 #include "list.h"
-#include <stddef.h>
 
 // adds new_element to beginning of linked list
 void list_add(struct list_element **list_head, struct list_element *new_element){
