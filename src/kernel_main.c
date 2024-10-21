@@ -48,6 +48,8 @@ void kernel_main() {
   putc(' ');
   esp_printf(putc, "Current Execution Level is %d\r\n", getEL()); // Uses putc to print a string
 
+  mmu_on();
+
   while(1){
     esp_printf(putc, "running...\n");
     os_delay(10000000);
