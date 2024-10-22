@@ -18,7 +18,7 @@ OBJS = \
         list.o \
         serial.o \
         rprintf.o \
-	mmu.o \
+	mmusetup.o \
 
 
 
@@ -28,8 +28,10 @@ $(ODIR)/%.o: $(SDIR)/%.c
 	$(CC) $(CFLAGS) -c -g -o $@ $^
 
 $(ODIR)/%.o: $(SDIR)/%.s
-	$(CC) $(CFLAGS) -c -g -o $@ $^
+	$(AS) $(ASFLAGS) -c -g -o $@ $^
 
+$(ODIR)/%.o: $(SDIR)/%.S
+	$(AS) $(ASFLAGS) -c -g -o $@ $^
 
 all: bin rootfs.img
 
