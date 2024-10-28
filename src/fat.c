@@ -8,7 +8,7 @@
 
 struct boot_sector *bs;
 char bootSector[512]; // Allocate a global array to store boot sector
-// char fat_table[8*SECTOR_SIZE];
+char fat_table[8*SECTOR_SIZE];
 unsigned int root_sector; // Read sector 0 from disk drive into bootSector array
 
 int fatInit() { // "Initializes the FAT filesystem driver by reading the superblock (aka boot sector) and FAT into memory."
@@ -38,4 +38,8 @@ fatOpen() { // "Opens a file in a FAT filesystem on disk."
 
 fatRead() { // "Reads data from a file into a buffer."
 
+}
+
+int main() {
+  fatInit()
 }
