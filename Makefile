@@ -18,8 +18,8 @@ OBJS = \
         list.o \
         serial.o \
         rprintf.o \
-	page.o \
-	mmusetup.o \
+				page.o \
+
 
 # Make sure to keep a blank line here after OBJS list
 
