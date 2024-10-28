@@ -1,0 +1,37 @@
+// list.c
+
+#include "list.h"
+// #include <stddef.h>
+
+
+void list_add(struct list_element **list_head, struct list_element *new_element){
+  new_element->next = *list_head;
+  list_head = &new_element;
+}
+
+struct list_element list_remove_head(struct list_element **list_head){
+  
+}
+
+
+void list_remove(struct list_element *element){
+  element->next = 0;
+}
+
+
+int main(){
+  struct list_element d;
+  struct list_element c;
+  struct list_element b = {&c, 2};
+  struct list_element a = {&b, 1};
+
+  struct list_element *head = &a;
+  struct list_element *new = &c;
+
+
+  list_add(&head, new);
+
+  list_remove(head);
+
+  return 0;
+}
