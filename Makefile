@@ -19,6 +19,8 @@ OBJS = \
         serial.o \
         rprintf.o \
 				page.o \
+				fat.o \
+				sd.o \
 
 
 # Make sure to keep a blank line here after OBJS list
