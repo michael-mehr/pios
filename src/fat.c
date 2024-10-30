@@ -32,11 +32,11 @@ int fatInit() { // "Initializes the FAT filesystem driver by reading the superbl
 
 }
 
-fatOpen() { // "Opens a file in a FAT filesystem on disk."
+fatOpen("FNAME") { // "Opens a file in a FAT filesystem on disk."
 
 }
 
-fatRead() { // "Reads data from a file into a buffer."
+fatRead(char *buf, int n, struct rde *r) { // "Reads data from a file into a buffer."
 
 }
 
