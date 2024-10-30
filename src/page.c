@@ -50,8 +50,9 @@ void free_physical_pages(struct ppage *ppage_list) {
   }
 }
 
-int main() {
-  init_pfa_list();
-  struct ppage *allocd_list = allocate_physical_pages(10);
-  free_physical_pages(allocd_list);
-}
+// int main() {
+//   init_pfa_list();
+//   struct ppage *allocd_list = allocate_physical_pages(10);
+//   free_physical_pages(allocd_list);
+//   return 0;
+// }
