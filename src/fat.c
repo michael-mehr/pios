@@ -41,5 +41,5 @@ fatRead() { // "Reads data from a file into a buffer."
 }
 
 int main() {
-  fatInit()
+  fatInit();
 }
