@@ -2,7 +2,7 @@
 
 CC := aarch64-linux-gnu-gcc
 LD := aarch64-linux-gnu-ld
-OBJDUMP := aarch64-linux-gnu--objdump
+OBJDUMP := aarch64-linux-gnu-objdump
 OBJCOPY := aarch64-linux-gnu-objcopy
 CONFIGS := -DCONFIG_HEAP_SIZE=4096
 
@@ -23,7 +23,7 @@ OBJS = \
 				sd.o \
 
 
-
+# Make sure to keep a blank line here after OBJS list
 
 OBJ = $(patsubst %,$(ODIR)/%,$(OBJS))
 
@@ -36,11 +36,14 @@ $(ODIR)/%.o: $(SDIR)/%.s
 
 all: bin rootfs.img
 
-bin: $(OBJ)
+bin: obj $(OBJ)
 	$(LD) obj/* -Tkernel.ld -o kernel8.img
 	cp kernel8.img kernel8.elf
 	$(OBJCOPY) -O binary kernel8.img
 	aarch64-linux-gnu-size kernel8.elf
+
+obj:
+	mkdir -p obj
 
 clean:
 	rm -f obj/*
@@ -50,8 +53,7 @@ clean:
 	rm -f kernel8.elf
 
 debug:
-	screen -S qemu -d -m qemu-system-aarch64 -machine raspi3b -kernel kernel8.img -hda rootfs.img -S -s -serial null -serial stdio -monitor none -nographic -k en-us 
-	TERM=xterm gdb -x gdb_init_prot_mode.txt && killall qemu-system-aarch64
+	./launch_qemu.sh
 
 run:
 	qemu-system-aarch64 -machine raspi3b -kernel kernel8.img -hda rootfs.img -serial null -serial stdio -monitor none -nographic -k en-us
@@ -61,11 +63,9 @@ disassemble:
 
 rootfs.img:
 	dd if=/dev/zero of=rootfs.img bs=1M count=16
-	mkfs.fat -F12 rootfs.img
-	sudo mkdir -p /mnt/disk
-	sudo mount rootfs.img /mnt/disk
-	sudo mkdir -p /mnt/disk/boot/firmware
-	sudo mkdir /mnt/disk/bin
-	sudo mkdir /mnt/disk/etc
-	sudo umount /mnt/disk
+	mkfs.fat -F16 rootfs.img
+	mmd -i rootfs.img boot
+	mmd -i rootfs.img boot/firmware
+	mmd -i rootfs.img bin
+	mmd -i rootfs.img etc
 
