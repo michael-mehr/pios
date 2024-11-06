@@ -33,7 +33,7 @@ void kernel_main() {
   esp_printf(putc, "Current Execution Level is %d\r\n", getEL()); // Uses putc to print a string
 
   while(1){
-    esp_printf(putc, "running...\n");
+    uart_puts("running...\n");
     delay_ms(2000);
   }
 }
