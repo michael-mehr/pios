@@ -33,7 +33,7 @@ void mapPages(void *vaddr, void *paddr) {
     L2table[L2tableIndex].sh = 3; // Set inner sharable
     L2table[L2tableIndex].ap = 0; // Access permission, kernel RW
     L2table[L2tableIndex].af = 1; // ??
-    L2table[L2tableIndex].output_addr = (unsigned int)paddr >> XXX; // 
+    L2table[L2tableIndex].output_addr = (unsigned int)paddr >> 12; // 
 }
 
 

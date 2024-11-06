@@ -45,8 +45,22 @@ void kernel_main() {
     *i = 0;
   }
 
+  // serial driver
   putc(' ');
   esp_printf(putc, "Current Execution Level is %d\r\n", getEL()); // Uses putc to print a string
+
+  // page frame allocator
+  init_pfa_list();
+  struct ppage *allocd_list = allocate_physical_pages(10);
+  free_physical_pages(allocd_list);
+
+  // MMU Setup
+  // extern struct table_descriptor_stage1 L1table; // from mmu.c
+  // extern struct page_descriptor_stage1 L2table; // from mmu.c
+  // struct table_descriptor_stage1 *L1table_ptr = &L1table; // pointer to L1 table
+  // loadPageTable(L1table_ptr);
+  // mapPages(0x100000, 0x200000); // map virtual address 0x100000 to physical address 0x200000
+
 
   while(1){
     esp_printf(putc, "running...\n");

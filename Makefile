@@ -19,7 +19,6 @@ OBJS = \
         serial.o \
         rprintf.o \
 				page.o \
-				mmusetup.o \
 				mmu.o \
 
 
