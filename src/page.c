@@ -2,7 +2,6 @@
 // page.c
 
 #include "page.h"
-#include "list.c"
 #include <stddef.h>
 
 struct ppage physical_page_array[128]; // 128 pages, each 2mb in length covers 256 megs of memory
