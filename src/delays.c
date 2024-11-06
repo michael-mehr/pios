@@ -17,6 +17,6 @@ void wait_cycles(unsigned int cycles) {
 }
 
 // delays OS by num milliseconds
-void wait_ms(unsigned int ms) {
+void wait_msec(unsigned int ms) {
   wait_cycles(ms * 1000);
 }

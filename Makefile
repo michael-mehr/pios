@@ -20,8 +20,8 @@ OBJS = \
         rprintf.o \
 				page.o \
 				delays.o \
+				sd.o \
 				# fat.o \
-				# sd.o \
 
 
 # Make sure to keep a blank line here after OBJS list
