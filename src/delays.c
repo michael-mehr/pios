@@ -8,7 +8,7 @@ unsigned long get_timer_count() {
 }
 
 // delays OS by num cycles, where each cycle is 1 microsecond
-void delay_cycles(unsigned int cycles) {
+void wait_cycles(unsigned int cycles) {
   unsigned long start = get_timer_count();
   unsigned long end = start + cycles;
   while (get_timer_count() < end) {
@@ -17,6 +17,6 @@ void delay_cycles(unsigned int cycles) {
 }
 
 // delays OS by num milliseconds
-void delay_ms(unsigned int ms) {
-  delay_cycles(ms * 1000);
+void wait_ms(unsigned int ms) {
+  wait_cycles(ms * 1000);
 }

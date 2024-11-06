@@ -34,6 +34,6 @@ void kernel_main() {
 
   while(1){
     uart_puts("running...\n");
-    delay_ms(2000);
+    wait_ms(2000);
   }
 }
