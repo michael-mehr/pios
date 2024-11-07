@@ -32,6 +32,11 @@ void kernel_main() {
   putc(' ');
   esp_printf(putc, "Current Execution Level is %d\r\n", getEL()); // Uses putc to print a string
 
+  // FAT filesystem initialization
+  sd_init();
+  fatInit();
+
+  // main loop
   while(1){
     uart_puts("running...\n");
     wait_msec(2000);
