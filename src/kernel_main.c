@@ -50,9 +50,9 @@ void kernel_main() {
   esp_printf(putc, "Current Execution Level is %d\r\n", getEL()); // Uses putc to print a string
 
   // page frame allocator
-  init_pfa_list();
-  struct ppage *allocd_list = allocate_physical_pages(10);
-  free_physical_pages(allocd_list);
+  // init_pfa_list();
+  // struct ppage *allocd_list = allocate_physical_pages(10);
+  // free_physical_pages(allocd_list);
 
   // MMU Setup
   // extern struct table_descriptor_stage1 L1table; // from mmu.c
