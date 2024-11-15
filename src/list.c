@@ -25,18 +25,18 @@ void list_remove(struct list_element **list_head, struct list_element *element){
 }
 
 
-int main(){
-  struct list_element d;
-  struct list_element c;
-  struct list_element b = {&c,   0};
-  struct list_element a = {&b,   0};
-  struct list_element *head = &a;
+// int main(){
+//   struct list_element d;
+//   struct list_element c;
+//   struct list_element b = {&c,   0};
+//   struct list_element a = {&b,   0};
+//   struct list_element *head = &a;
 
-  struct list_element *new_item = &d;
+//   struct list_element *new_item = &d;
 
-  list_add(&head, new_item);
+//   list_add(&head, new_item);
 
-  list_remove(&head, new_item);
+//   list_remove(&head, new_item);
 
-  return 0;
-}
+//   return 0;
+// }
