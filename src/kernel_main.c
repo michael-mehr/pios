@@ -63,6 +63,11 @@ void kernel_main() {
   // mapPages(0x100000, 0x200000); // map virtual address 0x100000 to physical address 0x200000
 
 
+  extern struct ppage *free_ppage_list;
+  init_pfa_list();
+  struct ppage *allocated_pages = allocate_physical_pages(1);
+  free_physical_pages(allocated_pages);
+
   while(1){
     esp_printf(putc, "running...\n");
     os_delay(10000000);
