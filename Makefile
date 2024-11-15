@@ -15,10 +15,10 @@ SDIR = src
 OBJS = \
 	boot.o \
 	kernel_main.o \
-        list.o \
         serial.o \
         rprintf.o \
 				page.o \
+        # list.o \
 
 
 

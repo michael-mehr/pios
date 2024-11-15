@@ -42,6 +42,11 @@ void kernel_main() {
   putc(' ');
   esp_printf(putc, "Current Execution Level is %d\r\n", getEL());
 
+  extern struct ppage *free_ppage_list;
+  init_pfa_list();
+  struct ppage *allocated_pages = allocate_physical_pages(1);
+  free_physical_pages(allocated_pages);
+
   while(1){
     esp_printf(putc, "running...\n");
     os_delay(10000000);
