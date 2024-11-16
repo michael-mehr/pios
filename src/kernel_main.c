@@ -62,6 +62,8 @@ void kernel_main() {
   // loadPageTable(L1table_ptr);
   // mapPages(0x100000, 0x200000); // map virtual address 0x100000 to physical address 0x200000
 
+  shell();
+
   while(1){
     esp_printf(putc, "running...\n");
     os_delay(10000000);
