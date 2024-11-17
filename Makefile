@@ -20,6 +20,7 @@ OBJS = \
 				page.o \
 				mmu.o \
 				shell.o \
+				delay.o \
 
 
 # Make sure to keep a blank line here after OBJS list

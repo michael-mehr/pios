@@ -3,12 +3,6 @@
 
 char glbl[1024]; // global char array, used for clearing bss
 
-// returns pointer to the timer count register
-// timer count register stores total microseconds since boot
-unsigned long get_timer_count() {
-  unsigned long *timer_count_register = 0x3f003004;
-  return *timer_count_register;
-}
 
 // delays os/kernel_main by time = microseconds
 void os_delay(unsigned long time) {
