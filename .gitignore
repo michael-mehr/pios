@@ -5,3 +5,4 @@ kernel8.elf
 .vscode
 *.swp
 *.swo
+rootfs.img
