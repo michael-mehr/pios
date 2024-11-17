@@ -11,9 +11,8 @@ void putc(int data) {
 // reads character from serial port
 char getc() {
   int *mu_io = (int *)MU_IO; // MU_IO register
-  while ((*mu_io & 0x100) == 0) {
-    // wait for serial port to be ready
-  }
-  return (char)(*mu_io & 0xFF);
+  while ((*mu_io & 0x01) == 0) {}; // wait until character arrives
+  char c = (char)(*mu_io & 0xFF); 
+  return c;
 }
 
