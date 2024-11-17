@@ -1,4 +1,3 @@
-
 // kernel_main.c
 
 char glbl[1024]; // global char array, used for clearing bss
@@ -59,9 +58,7 @@ void kernel_main() {
   extern struct table_descriptor_stage1 L1table;
   extern struct page_descriptor_stage1 L2table;
   struct table_descriptor_stage1 *L1table_ptr = &L1table;
-  // loadPageTable(L1table_ptr);
-  // mapPages(0x100000, 0x200000); // map virtual address 0x100000 to physical address 0x200000
-
+  loadPageTable(L1table_ptr);
 
   while(1){
     esp_printf(putc, "running...\n");
