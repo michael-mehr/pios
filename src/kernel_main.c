@@ -58,7 +58,9 @@ void kernel_main() {
   extern struct table_descriptor_stage1 L1table;
   extern struct page_descriptor_stage1 L2table;
   struct table_descriptor_stage1 *L1table_ptr = &L1table;
+  mapPages((void *)0x200000, (void *)0x300000);
   loadPageTable(L1table_ptr);
+
 
   while(1){
     esp_printf(putc, "running...\n");
