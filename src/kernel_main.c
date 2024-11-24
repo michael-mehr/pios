@@ -33,8 +33,9 @@ void kernel_main() {
   esp_printf(putc, "Current Execution Level is %d\r\n", getEL()); // Uses putc to print a string
 
   // FAT filesystem initialization
-  sd_init();
   fatInit();
+  fatOpen("test.txt");
+  // fatRead();
 
   // main loop
   while(1){

@@ -185,7 +185,7 @@ int sd_readblock(unsigned int lba, unsigned char *buffer, unsigned int num)
     int r,c=0,d;
     if(num<1) num=1;
 //    uart_puts("sd_readblock lba ");/*uart_hex(lba);*/uart_puts(" num ");/*uart_hex(num);*/uart_puts("\n");
-    esp_printf("[sd_readblock] lba = %d num = %d\r\n", lba, num);
+    esp_printf(putc, "[sd_readblock] lba = %d num = %d\r\n", lba, num);
     if(sd_status(SR_DAT_INHIBIT)) {sd_err=SD_TIMEOUT; return 0;}
     unsigned int *buf=(unsigned int *)buffer;
     if(sd_scr[0] & SCR_SUPP_CCS) {
