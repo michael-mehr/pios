@@ -1,5 +1,9 @@
-
 // kernel_main.c
+
+#include "fat.h"
+#include "serial.h"
+#include "rprintf.h"
+#include "delays.h"
 
 char glbl[1024]; // global char array, used for clearing bss
 
@@ -34,8 +38,22 @@ void kernel_main() {
 
   // FAT filesystem initialization
   fatInit();
-  fatOpen("test.txt");
-  // fatRead();
+
+  char file_name[] = "test";
+  char *fn = file_name;
+  char file_extension[] = "txt";
+  char *fe = file_extension;
+  
+  esp_printf(putc, "Opening file %s\r\n", fn);
+
+  struct file *f;
+
+  f = fatOpen(fn, fe);
+  if (f) {
+    esp_printf(putc, "File %s opened successfully\r\n", &file_name[0]);
+  } else {
+    esp_printf(putc, "Failed to open file %s\n", fn);
+  }
 
   // main loop
   while(1){
