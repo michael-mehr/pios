@@ -40,9 +40,9 @@ void kernel_main() {
   fatInit();
 
   char file_name[] = "test";
-  char *fn = file_name;
+  char *fn = &file_name;
   char file_extension[] = "txt";
-  char *fe = file_extension;
+  char *fe = &file_extension;
   
   esp_printf(putc, "Opening file %s\r\n", fn);
 
@@ -52,7 +52,7 @@ void kernel_main() {
   if (f) {
     esp_printf(putc, "File %s opened successfully\r\n", &file_name[0]);
   } else {
-    esp_printf(putc, "Failed to open file %s\n", fn);
+    esp_printf(putc, "Failed to open file %s.%s\n", fn, fe);
   }
 
   // main loop
