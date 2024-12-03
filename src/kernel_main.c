@@ -39,9 +39,9 @@ void kernel_main() {
   // FAT filesystem initialization
   fatInit();
 
-  char file_name[] = "test";
+  char file_name[] = "TEST";
   char *fn = &file_name;
-  char file_extension[] = "txt";
+  char file_extension[] = "TXT";
   char *fe = &file_extension;
   
   esp_printf(putc, "Opening file %s\r\n", fn);

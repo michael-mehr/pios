@@ -12,12 +12,39 @@ char bootSector[512]; // Allocate a global array to store boot sector
 char fat_table[8*SECTOR_SIZE]; 
 unsigned int root_sector;  
 
-int strcmp(const char *str1, const char *str2) {
-  while (*str1 && (*str1 == *str2)) {
+// int strcmp(const char *str1, const char *str2) {
+//   while (*str1 && (*str1 == *str2)) {
+//     str1++;
+//     str2++;
+//   }
+//   return *(unsigned char *)str1 - *(unsigned char *)str2;
+// }
+
+int strcmp(const char *str1, const char *str2, unsigned int n) {
+  while (n && *str1 && (*str1 == *str2)) {
     str1++;
     str2++;
+    n--;
   }
-  return *(unsigned char *)str1 - *(unsigned char *)str2;
+  if (n == 0) {
+    return 0;
+  } else {
+    return *(unsigned char *)str1 - *(unsigned char *)str2;
+  }
+}
+
+void pad_filename(char *dest, const char *src, int length) {
+  int i;
+  for (i = 0; i < length; i++) {
+      if (src[i] != '\0') {
+          dest[i] = src[i];
+      } else {
+          break;
+      }
+  }
+  for (; i < length; i++) {
+      dest[i] = ' ';
+  }
 }
 
 // Initializes the FAT filesystem driver by reading the superblock (aka boot sector) and FAT into memory
@@ -42,7 +69,7 @@ int fatInit() {
   }
   
   // Validate fs_type = "FAT16" using strcmp
-  if (strcmp("FAT16", bs->fs_type) == 0) {
+  if (strcmp("FAT16", bs->fs_type, 5) == 0) {
     esp_printf(putc, "File System Type Validated\n");
   } else {
     esp_printf(putc, "File System Type Invalid. Expected FAT16, got %s\n", bs->fs_type);
@@ -52,17 +79,23 @@ int fatInit() {
   sd_readblock(bs->num_reserved_sectors, fat_table, bs->num_sectors_per_fat);
   
   // Compute root_sector as:
-  // num_fat_tables + num_sectors_per_fat + num_reserved_sectors + num_hidden_sectors
-  root_sector = bs->num_fat_tables + bs->num_sectors_per_fat + bs->num_reserved_sectors + bs->num_hidden_sectors;
+  // num_fat_tables * num_sectors_per_fat + num_reserved_sectors + num_hidden_sectors
+  root_sector = bs->num_fat_tables * bs->num_sectors_per_fat + bs->num_reserved_sectors + bs->num_hidden_sectors;
   esp_printf(putc, "Root Sector: %d\n", root_sector);
   return 1;
 }
 
 // Opens a file in a FAT filesystem on disk
-struct file *fatOpen(char *file_name, char *file_ext) {
+struct file *fatOpen(char *_file_name, char *_file_ext) {
   struct root_directory_entry *rde;
   struct file *file = NULL;
-  char root_dir[bs->num_root_dir_entries * sizeof(struct root_directory_entry)];
+  char root_dir[512]; // bs->num_root_dir_entries * sizeof(struct root_directory_entry) = 512
+  const char padded_file_name[8];
+  char padded_file_ext[3];
+
+  // Pad filename + extension
+  pad_filename(&padded_file_name, _file_name, 8);
+  pad_filename(&padded_file_ext, _file_ext, 3);
 
   rde = (struct root_directory_entry*)root_dir;
 
@@ -74,12 +107,15 @@ struct file *fatOpen(char *file_name, char *file_ext) {
     // check for match 
     // parse filename for name and extension with buffer array
     // strcmp
-  esp_printf(putc, "Searching for file %s.%s ...\n", file_name, file_ext);
-  for (int i = 0; i < bs->num_root_dir_entries; i++) {
-    esp_printf(putc, "File %d: %s.%s\n", i, rde->file_name, rde->file_extension);
-    if (strcmp(rde->file_name, file_name) == 0) {
-      file = (struct file*)rde;
-      break;
+  esp_printf(putc, "Searching for file %s ...\n", *padded_file_name);
+  for (int i = 0; i < 24; i++) { // replace with bs->num_root_dir_entries
+    // esp_printf(putc, "File %d: %s\n", i, rde->file_name);
+    if (strcmp(padded_file_name, rde->file_name, 8) == 0) {
+      if (strcmp(padded_file_ext, rde->file_extension, 3) == 0) {
+        esp_printf(putc, "File found!\n");
+        file = (struct file*)rde;
+        break;
+      }
     }
     rde++;
   }

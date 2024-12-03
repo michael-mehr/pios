@@ -69,4 +69,6 @@ rootfs.img:
 	mmd -i rootfs.img boot/firmware
 	mmd -i rootfs.img bin
 	mmd -i rootfs.img etc
+	echo "This is a test file" > test.txt
+	mcopy -i rootfs.img test.txt ::test.txt
 
