@@ -4,6 +4,7 @@
 #include "serial.h"
 #include "rprintf.h"
 #include "delays.h"
+#include "fat.h"
 
 char glbl[1024]; // global char array, used for clearing bss
 
@@ -39,21 +40,30 @@ void kernel_main() {
   // FAT filesystem initialization
   fatInit();
 
+  // open file
   char file_name[] = "TEST";
   char *fn = &file_name;
   char file_extension[] = "TXT";
   char *fe = &file_extension;
+  struct file file;
   
-  esp_printf(putc, "Opening file %s\r\n", fn);
+  esp_printf(putc, "Opening file %s.%s ...\r\n", fn, fe);
 
-  struct file *f;
 
-  f = fatOpen(fn, fe);
-  if (f) {
-    esp_printf(putc, "File %s opened successfully\r\n", &file_name[0]);
+  file = fatOpen(fn, fe);
+  
+  if (file) {
+    esp_printf(putc, "File %s.%s opened successfully\r\n", fn, fe);
   } else {
     esp_printf(putc, "Failed to open file %s.%s\n", fn, fe);
   }
+
+  // read file
+  char read_buffer[512];
+  char *read_buf_ptr = &read_buffer[0];
+  fatRead(read_buf_ptr, 512, file);
+  esp_printf(putc, "%s\n", read_buf_ptr);
+
 
   // main loop
   while(1){
