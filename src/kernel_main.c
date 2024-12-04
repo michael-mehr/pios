@@ -45,7 +45,7 @@ void kernel_main() {
   char *fn = &file_name;
   char file_extension[] = "TXT";
   char *fe = &file_extension;
-  struct file file;
+  struct file *file;
   
   esp_printf(putc, "Opening file %s.%s ...\r\n", fn, fe);
 
