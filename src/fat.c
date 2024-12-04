@@ -90,7 +90,7 @@ int fatInit() {
 }
 
 // Opens a file in a FAT filesystem on disk
-struct file fatOpen(char *_file_name, char *_file_ext) {
+struct root_directory_entry fatOpen(char *_file_name, char *_file_ext) {
   struct root_directory_entry *rde;
   struct file file;
   char root_dir[512]; // bs->num_root_dir_entries * sizeof(struct root_directory_entry) = 512
@@ -131,13 +131,13 @@ struct file fatOpen(char *_file_name, char *_file_ext) {
     rde++;
   }
   break_point();
-  return file;
+  return *rde;
 }
 
 // Reads data from a file into a buffer
-void fatRead(char *buf, int n, struct file *file) { 
+void fatRead(char *buf, int n, struct root_directory_entry *rde) { 
   char sector_buffer[512];
-  unsigned int cluster = file->start_cluster;
+  unsigned int cluster = rde->cluster;
   unsigned int sector;
   unsigned int bytes_read = 0;
   unsigned int bytes_to_read;
