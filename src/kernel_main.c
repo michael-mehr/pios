@@ -53,7 +53,7 @@ void kernel_main() {
   file = fatOpen(fn, fe);
   
   if (file) {
-    esp_printf(putc, "File %s.%s opened successfully\r\n", fn, fe);
+    esp_printf(putc, "File %s.%s opened successfully\r\n", file->file_name, file->file_extension);
   } else {
     esp_printf(putc, "Failed to open file %s.%s\n", fn, fe);
   }

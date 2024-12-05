@@ -49,6 +49,7 @@ void pad_filename(char *dest, const char *src, int length) {
   for (; i < length; i++) {
       dest[i] = ' ';
   }
+  dest[length] = '\0';
 }
 
 // Initializes the FAT filesystem driver by reading the superblock (aka boot sector) and FAT into memory
@@ -90,9 +91,9 @@ int fatInit() {
 }
 
 // Opens a file in a FAT filesystem on disk
-struct root_directory_entry fatOpen(char *_file_name, char *_file_ext) {
+struct root_directory_entry* fatOpen(char *_file_name, char *_file_ext) {
+  static struct root_directory_entry file;
   struct root_directory_entry *rde;
-  struct file file;
   char root_dir[512]; // bs->num_root_dir_entries * sizeof(struct root_directory_entry) = 512
   char found_fname[8];
   char found_fext[3];
@@ -100,10 +101,10 @@ struct root_directory_entry fatOpen(char *_file_name, char *_file_ext) {
   char *found_fe_ptr = &found_fext;
 
   // Pad filename + extension
-  char padded_file_name[8];
-  char padded_file_ext[3];
-  pad_filename(&padded_file_name, _file_name, 8);
-  pad_filename(&padded_file_ext, _file_ext, 3);
+  char padded_file_name[8]; 
+  char padded_file_ext[3]; 
+  pad_filename(padded_file_name, _file_name, 8);
+  pad_filename(padded_file_ext, _file_ext, 3);
 
   rde = (struct root_directory_entry*)root_dir;
 
@@ -111,10 +112,6 @@ struct root_directory_entry fatOpen(char *_file_name, char *_file_ext) {
   sd_readblock(root_sector, root_dir, 1);
 
   // Search for the file in the root directory
-    // loop through block root_dir
-    // check for match 
-    // parse filename for name and extension with buffer array
-    // strcmp
   esp_printf(putc, "Searching for file %s.%s ...\n", _file_name, _file_ext);
   for (int i = 0; i < 512; i++) { 
     found_fn_ptr = rde->file_name;
@@ -123,15 +120,13 @@ struct root_directory_entry fatOpen(char *_file_name, char *_file_ext) {
     if (strcmp(padded_file_name, rde->file_name, 8) == 0) {
       if (strcmp(padded_file_ext, rde->file_extension, 3) == 0) {
         esp_printf(putc, "File found!\n");
-        file.rde = *rde;
-        file.start_cluster = rde->cluster;
-        break;
+        file = *rde;
+        return &file;
       }
     }
     rde++;
   }
-  break_point();
-  return *rde;
+  return NULL;
 }
 
 // Reads data from a file into a buffer
@@ -159,6 +154,8 @@ void fatRead(char *buf, int n, struct root_directory_entry *rde) {
     }
 
     bytes_read += bytes_to_read;
+
+    break_point();
 
     // Move to the next cluster if necessary
     if (bytes_read < n) {
